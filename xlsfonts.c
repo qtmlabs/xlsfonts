@@ -24,11 +24,13 @@ Except as contained in this notice, the name of The Open Group shall not be
 used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from The Open Group.
  * */
+/* $XFree86: xc/programs/xlsfonts/xlsfonts.c,v 1.8 2001/12/14 20:02:10 dawes Exp $ */
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "dsimple.h"
 
 #define N_START 1000  /* Maximum # of fonts to start with */
@@ -55,6 +57,25 @@ typedef struct {
 FontList	*font_list;
 
 
+#if NeedFunctionPrototypes
+extern void usage(void);
+extern int main(int, char **);
+extern void get_list(char *);
+extern void show_fonts(void);
+extern void copy_number(char **, char **, int, int);
+extern void do_query_font(Display *, char *);
+static int compare(const void *, const void *);
+#ifndef max
+static int max(int, int);
+#endif
+static int IgnoreError(Display *, XErrorEvent *);
+static void PrintProperty(XFontProp *);
+static void ComputeFontType(XFontStruct *);
+static void print_character_metrics(register XFontStruct *);
+#endif
+
+
+void
 usage()
 {
 	fprintf (stderr,"usage:  %s [-options] [-fn pattern]\n", program_name);
@@ -82,6 +103,7 @@ usage()
 	exit(1);
 }
 
+int
 main(argc, argv)
 int argc;
 char **argv;    
@@ -149,6 +171,7 @@ char **argv;
 	exit(0);
 }
 
+void
 get_list(pattern)
 	char	*pattern;
 {
@@ -204,17 +227,22 @@ get_list(pattern)
 	}
 }
 
-compare(f1, f2)
-	FontList	*f1, *f2;
+static int
+compare(arg1, arg2)
+    const void *arg1;
+    const void *arg2;
 {
-	char	*p1 = f1->name,
-		*p2 = f2->name;
+	const FontList *f1 = arg1;
+	const FontList *f2 = arg2;
+	const char *p1 = f1->name;
+	const char *p2 = f2->name;
 
 	while (*p1 && *p2 && *p1 == *p2)
 		p1++, p2++;
 	return(*p1 - *p2);
 }
 
+void
 show_fonts()
 {
 	int	i;
@@ -371,6 +399,8 @@ show_fonts()
 		printf("%s\n", font_list[i].name);
 }
 
+#ifndef max
+static int
 max(i, j)
 	int	i, j;
 {
@@ -378,7 +408,9 @@ max(i, j)
 		return (i);
 	return(j);
 }
+#endif
 
+void
 copy_number(pp1, pp2, n1, n2)
 	char	**pp1, **pp2;
 	int	n1, n2;
@@ -423,27 +455,37 @@ static char *bounds_metrics_fmt =
 
 
 static char* stringValued [] = { /* values are atoms */
-    "FAMILY_NAME",
+    /* font name components (see section 3.2 of the XLFD) */
     "FOUNDRY",
-    "STYLE",
-    "MONOSPACED",
-    "RELATIVE_WEIGHT",
-    "RELATIVE_SET",
-    "CLASSIFICATION",
+    "FAMILY_NAME",
+    "WEIGHT_NAME",
+    "SLANT",
+    "SETWIDTH_NAME",
+    "ADD_STYLE_NAME",
+    "SPACING",
     "CHARSET_REGISTRY",
     "CHARSET_ENCODING",
-    "QUALITY",
-    "CHARSET_COLLECTIONS",
-    "FULL_NAME",
-    "COPYRIGHT",
-    "WEIGHT_NAME",
-    "SETWIDTH_NAME",
-    "SLANT",
-    "SPACING",
-    "ADD_STYLE_NAME",
-    "FONTNAME_REGISTRY",
+
+    /* other standard X font properties (see section 3.2 of the XLFD) */
     "FONT",
+    "FACE_NAME",
+    "FULL_NAME",              /* deprecated */
+    "COPYRIGHT",
+    "NOTICE",
+    "FONT_TYPE",
+    "FONT_VERSION",
+    "RASTERIZER_NAME",
+    "RASTERIZER_VERSION",
+
+    /* unregistered font properties */
+    "CHARSET_COLLECTIONS",
+    "CLASSIFICATION",
     "DEVICE_FONT_NAME",
+    "FONTNAME_REGISTRY",
+    "MONOSPACED",
+    "QUALITY",
+    "RELATIVE_SET",
+    "STYLE",
      NULL
     };
 
@@ -453,25 +495,25 @@ static void PrintProperty (prop)
     char *atom, *value;
     char nosuch[40];
     int i;
-    int (*oldhandler)() = XSetErrorHandler (IgnoreError);
+    XErrorHandler oldhandler = XSetErrorHandler(IgnoreError);
 
     atom = XGetAtomName(dpy, prop->name);
     if (!atom) {
 	atom = nosuch;
 	nosuch[0] = '\0';
-	(void)sprintf (atom, "No such atom = %d", prop->name);
+	(void)sprintf (atom, "No such atom = %ld", prop->name);
     }
     printf ("      %s", atom);
     for (i = strlen(atom); i < 22; i++) printf (" ");
     for (i = 0; ; i++) {
 	if (stringValued[i] == NULL) {
-	    printf ("%d\n", prop->card32);
+	    printf ("%ld\n", prop->card32);
 	    break;
 	}
 	if (strcmp(stringValued[i], atom) == 0) {
 	    value = XGetAtomName(dpy, prop->card32);
 	    if (value == NULL)
-		printf ("%d (expected string value)\n", prop->card32);
+		printf ("%ld (expected string value)\n", prop->card32);
 	    else {
 		printf ("%s\n", value);
 		XFree (value);
@@ -484,6 +526,7 @@ static void PrintProperty (prop)
 }
 
 
+static void
 ComputeFontType (fs)
     XFontStruct *fs;
 {
@@ -552,6 +595,7 @@ ComputeFontType (fs)
 }
 
 
+static void
 print_character_metrics (info)
     register XFontStruct *info;
 {
@@ -576,6 +620,7 @@ print_character_metrics (info)
 }
 
 
+void
 do_query_font (dpy, name)
     Display *dpy;
     char *name;
