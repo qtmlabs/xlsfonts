@@ -93,9 +93,9 @@ void usage(void)
     fprintf (stderr, "    -1                       force single column\n");
     fprintf (stderr, "    -u                       keep output unsorted\n");
 #ifdef BUILD_PRINTSUPPORT
-    fprintf (stderr, "    -b                       list printer builtin fonts (default)\n");
+    fprintf (stderr, "    -b                       list printer builtin fonts\n");
     fprintf (stderr, "    -B                       do not list printer builtin fonts\n");
-    fprintf (stderr, "    -g                       list glyph fonts (default)\n");
+    fprintf (stderr, "    -g                       list glyph fonts\n");
     fprintf (stderr, "    -G                       do not list glyph fonts\n");
     fprintf (stderr, "    -x mode                  enable listfont mode\n");
     fprintf (stderr, "    -X mode                  disable listfont mode\n");
