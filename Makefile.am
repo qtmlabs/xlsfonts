@@ -21,8 +21,8 @@
 
 bin_PROGRAMS = xlsfonts
 
-xlsfonts_CFLAGS = $(DEP_CFLAGS)
-xlsfonts_LDADD = $(DEP_LIBS)
+xlsfonts_CFLAGS = $(XLSFONTS_CFLAGS)
+xlsfonts_LDADD = $(XLSFONTS_LIBS)
 
 xlsfonts_SOURCES =	\
         dsimple.c \
