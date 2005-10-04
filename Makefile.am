@@ -32,3 +32,4 @@ xlsfonts_SOURCES =	\
 dist_man1_MANS = \
         xlsfonts.man
 
+EXTRA_DIST = xlsfonts.sgml
