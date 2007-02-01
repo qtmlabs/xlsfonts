@@ -1,5 +1,5 @@
 .\" -*- coding: us-ascii -*-
-.TH xlsfonts __appmansuffix__ "25 October 2004"  
+.TH xlsfonts __appmansuffix__ __xorgversion__
 .SH NAME
 xlsfonts \- server font list displayer for X
 .SH SYNOPSIS
