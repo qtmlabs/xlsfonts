@@ -71,8 +71,8 @@ static void _bitmap_error(int, char *);
 /*
  * Malloc: like malloc but handles out of memory using Fatal_Error.
  */
-char *Malloc(size)
-     unsigned size;
+char *
+Malloc(unsigned size)
 {
 	char *data;
 
@@ -86,9 +86,8 @@ char *Malloc(size)
 /*
  * Realloc: like Malloc except for realloc, handles NULL using Malloc.
  */
-char *Realloc(ptr, size)
-        char *ptr;
-        int size;
+char *
+Realloc(char *ptr, int size)
 {
 	char *new_ptr;
 
@@ -106,9 +105,8 @@ char *Realloc(ptr, size)
  * Get_Display_Name (argc, argv) Look for -display, -d, or host:dpy (obselete)
  * If found, remove it from command line.  Don't go past a lone -.
  */
-char *Get_Display_Name(pargc, argv)
-    int *pargc;  /* MODIFIED */
-    char **argv; /* MODIFIED */
+char *
+Get_Display_Name(int *pargc/* MODIFIED */, char **argv/* MODIFIED */)
 {
     int argc = *pargc;
     char **pargv = argv+1;
@@ -143,9 +141,8 @@ char *Get_Display_Name(pargc, argv)
  * Get_Printer_Name (argc, argv) Look for -printer, -p,
  * If found, remove it from command line.  Don't go past a lone -.
  */
-char *Get_Printer_Name(pargc, argv)
-    int *pargc;  /* MODIFIED */
-    char **argv; /* MODIFIED */
+char *
+Get_Printer_Name(int *pargc/* MODIFIED */, char **argv/* MODIFIED */)
 {
     int argc = *pargc;
     char **pargv = argv+1;
@@ -179,8 +176,8 @@ char *Get_Printer_Name(pargc, argv)
  * Open_Display: Routine to open a display with correct error handling.
  *               Does not require dpy or screen defined on entry.
  */
-Display *Open_Display(display_name)
-char *display_name;
+Display *
+Open_Display(char *display_name)
 {
 	Display *d;
 
@@ -202,12 +199,13 @@ char *display_name;
  *                           for this display is then stored in screen.
  *                           Does not require dpy or screen defined.
  */
-void Setup_Display_And_Screen(argc, argv)
-int *argc;      /* MODIFIED */
-char **argv;    /* MODIFIED */
+void
+Setup_Display_And_Screen(int *argc/* MODIFIED */, char **argv/* MODIFIED */)
 {
-        char *displayname = NULL,
-             *printername = NULL;
+        char *displayname = NULL;
+#ifdef BUILD_PRINTSUPPORT
+        char *printername = NULL;
+#endif
         
         displayname = Get_Display_Name(argc, argv);
 #ifdef BUILD_PRINTSUPPORT
@@ -266,8 +264,8 @@ void Close_Display(void)
 /*
  * Open_Font: This routine opens a font with error handling.
  */
-XFontStruct *Open_Font(name)
-char *name;
+XFontStruct *
+Open_Font(char *name)
 {
 	XFontStruct *font;
 
@@ -281,7 +279,7 @@ char *name;
 /*
  * Beep: Routine to beep the display.
  */
-void Beep()
+void Beep(void)
 {
 	XBell(dpy, 50);
 }
@@ -291,9 +289,8 @@ void Beep()
  * ReadBitmapFile: same as XReadBitmapFile except it returns the bitmap
  *                 directly and handles errors using Fatal_Error.
  */
-static void _bitmap_error(status, filename)
-     int status;
-     char *filename;
+static void
+_bitmap_error(int status, char *filename)
 {
   if (status == BitmapOpenFailed)
     Fatal_Error("Can't open file %s!", filename);
@@ -303,10 +300,9 @@ static void _bitmap_error(status, filename)
     Fatal_Error("Out of memory!");
 }
 
-Pixmap ReadBitmapFile(d, filename, width, height, x_hot, y_hot)
-     Drawable d;
-     char *filename;
-     int *width, *height, *x_hot, *y_hot;
+Pixmap
+ReadBitmapFile(Drawable d, char *filename,
+	       int *width, int *height, int *x_hot, int *y_hot)
 {
   Pixmap bitmap;
   int status;
@@ -325,10 +321,9 @@ Pixmap ReadBitmapFile(d, filename, width, height, x_hot, y_hot)
  * WriteBitmapFile: same as XWriteBitmapFile except it handles errors
  *                  using Fatal_Error.
  */
-void WriteBitmapFile(filename, bitmap, width, height, x_hot, y_hot)
-     char *filename;
-     Pixmap bitmap;
-     int width, height, x_hot, y_hot;
+void
+WriteBitmapFile(char *filename, Pixmap bitmap,
+		int width, int height, int x_hot, int y_hot)
 {
   int status;
 
@@ -361,9 +356,7 @@ void WriteBitmapFile(filename, bitmap, width, height, x_hot, y_hot)
  *                     all command line arguments, and other setup is done.
  *                     For examples of usage, see xwininfo, xwd, or xprop.
  */
-Window Select_Window_Args(rargc, argv)
-     int *rargc;
-     char **argv;
+Window Select_Window_Args(int *rargc, char **argv)
 #define ARGC (*rargc)
 {
 	int nargc=1;
@@ -428,9 +421,8 @@ Window Select_Window_Args(rargc, argv)
  *                on the display.  This routine does not require wind to
  *                be defined.
  */
-unsigned long Resolve_Color(w, name)
-     Window w;
-     char *name;
+unsigned long
+Resolve_Color(Window w, char *name)
 {
 	XColor c;
 	Colormap colormap;
@@ -464,12 +456,9 @@ unsigned long Resolve_Color(w, name)
  *                   Width and height are required solely for efficiency.
  *                   If needed, they can be obtained via. XGetGeometry.
  */
-Pixmap Bitmap_To_Pixmap(dpy, d, gc, bitmap, width, height)
-     Display *dpy;
-     Drawable d;
-     GC gc;
-     Pixmap bitmap;
-     int width, height;
+Pixmap
+Bitmap_To_Pixmap(Display *dpy, Drawable d, GC gc,
+		 Pixmap bitmap, int width, int height)
 {
   Pixmap pix;
   int x;
@@ -490,7 +479,7 @@ Pixmap Bitmap_To_Pixmap(dpy, d, gc, bitmap, width, height)
 /*
  * blip: a debugging routine.  Prints Blip! on stderr with flushing. 
  */
-void blip()
+void blip(void)
 {
     fflush(stdout);
     fprintf(stderr, "blip!\n");
@@ -502,8 +491,8 @@ void blip()
  * Routine to let user select a window using the mouse
  */
 
-Window Select_Window(dpy)
-     Display *dpy;
+Window
+Select_Window(Display *dpy)
 {
   int status;
   Cursor cursor;
@@ -553,10 +542,8 @@ Window Select_Window(dpy)
  *                   one found will be returned.  Only top and its subwindows
  *                   are looked at.  Normally, top should be the RootWindow.
  */
-Window Window_With_Name(dpy, top, name)
-     Display *dpy;
-     Window top;
-     char *name;
+Window
+Window_With_Name(Display *dpy, Window top, char *name)
 {
 	Window *children, dummy;
 	unsigned int nchildren;

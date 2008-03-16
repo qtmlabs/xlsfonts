@@ -118,7 +118,9 @@ void usage(void)
 int main(int argc, char **argv)
 {
     int argcnt = 0, i;
+#ifdef BUILD_PRINTSUPPORT
     char *mode;
+#endif
 
     INIT_NAME;
 
