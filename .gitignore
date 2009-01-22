@@ -18,3 +18,7 @@ stamp-h1
 xlsfonts
 xlsfonts.1
 *~
+*.o
+xlsfonts-*.tar.*
+ChangeLog
+tags
