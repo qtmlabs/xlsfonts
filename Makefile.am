@@ -32,7 +32,7 @@ xlsfonts_SOURCES =	\
 appman_PRE = \
         xlsfonts.man
 
-EXTRA_DIST = xlsfonts.sgml ChangeLog autogen.sh
+EXTRA_DIST = xlsfonts.sgml ChangeLog
 MAINTAINERCLEANFILES=ChangeLog
 
 .PHONY: ChangeLog
