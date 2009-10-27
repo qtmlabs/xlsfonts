@@ -32,8 +32,7 @@ xlsfonts_SOURCES =	\
 appman_PRE = \
         xlsfonts.man
 
-EXTRA_DIST = xlsfonts.sgml ChangeLog
-MAINTAINERCLEANFILES=ChangeLog
+EXTRA_DIST = xlsfonts.sgml 
 
 .PHONY: ChangeLog
 
