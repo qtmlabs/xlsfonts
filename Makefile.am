@@ -32,7 +32,7 @@ xlsfonts_SOURCES =	\
 appman_PRE = \
         xlsfonts.man
 
-EXTRA_DIST = xlsfonts.sgml 
+EXTRA_DIST = xlsfonts.sgml autogen.sh
 
 .PHONY: ChangeLog INSTALL
 
@@ -49,6 +49,7 @@ appmandir = $(APP_MAN_DIR)
 appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
 
 EXTRA_DIST += $(appman_PRE)
+MAINTAINERCLEANFILES = ChangeLog INSTALL
 CLEANFILES = $(appman_DATA)
 
 SED = sed
