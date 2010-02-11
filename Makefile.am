@@ -21,7 +21,7 @@
 
 bin_PROGRAMS = xlsfonts
 
-AM_CFLAGS = $(XLSFONTS_CFLAGS)
+AM_CFLAGS = $(XLSFONTS_CFLAGS) $(CWARNFLAGS)
 xlsfonts_LDADD = $(XLSFONTS_LIBS)
 
 xlsfonts_SOURCES =	\
