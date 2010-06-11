@@ -416,15 +416,11 @@ int IgnoreError(Display *disp, XErrorEvent *event)
 
 static char *bounds_metrics_title =
                       "width left  right  asc  desc   attr   keysym\n";
-static char *char_metrics_fmt = 
-"\t0x%02x%02x (%u)\t%4d  %4d  %4d  %4d  %4d  0x%04x  %s\n";
-static char *bounds_metrics_fmt =
-"\t%3s\t\t%4d  %4d  %4d  %4d  %4d  0x%04x\n";
-
 
 #define PrintBounds(_what,_ptr) \
 {   register XCharStruct *p = (_ptr); \
-    printf (bounds_metrics_fmt, (_what), p->width, p->lbearing, \
+    printf ("\t%3s\t\t%4d  %4d  %4d  %4d  %4d  0x%04x\n", \
+          (_what), p->width, p->lbearing, \
           p->rbearing, p->ascent, p->descent, p->attributes); }
 
 
@@ -589,7 +585,8 @@ print_character_metrics(register XFontStruct *info)
         n = saven;
         for (i = info->min_char_or_byte2; i <= info->max_char_or_byte2; i++) {
             char *s = XKeysymToString ((KeySym) n);
-            printf (char_metrics_fmt, j, i, n, pc->width, pc->lbearing,
+            printf ("\t0x%02x%02x (%u)\t%4d  %4d  %4d  %4d  %4d  0x%04x  %s\n",
+                    j, i, n, pc->width, pc->lbearing,
                     pc->rbearing, pc->ascent, pc->descent, pc->attributes,
                     s ? s : ".");
             pc++;
