@@ -59,8 +59,6 @@ char    *program_name = "unknown_program";
 Display *dpy = NULL;
 int      screen = 0;
 
-static void _bitmap_error(int, char *);
-
 /*
  * Malloc: like malloc but handles out of memory using Fatal_Error.
  */
