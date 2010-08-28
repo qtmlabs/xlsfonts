@@ -32,7 +32,7 @@ xlsfonts_SOURCES =	\
 appman_PRE = \
         xlsfonts.man
 
-EXTRA_DIST = xlsfonts.sgml autogen.sh
+EXTRA_DIST = xlsfonts.xml autogen.sh
 
 .PHONY: ChangeLog INSTALL
 
