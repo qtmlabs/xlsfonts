@@ -38,7 +38,6 @@ AM_CONFIG_HEADER(config.h)
 
 # Checks for pkg-config packages
 PKG_CHECK_MODULES(XLSFONTS, x11)
-AC_SUBST(XLSFONTS_LIBS)
 
 
 AC_OUTPUT([Makefile])
