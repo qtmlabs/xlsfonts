@@ -206,8 +206,9 @@ void get_list(char *pattern)
         return;
     }
 
-    font_list = (FontList *)Realloc((char *)font_list,
-            (font_cnt + available) * sizeof(FontList));
+    font_list = realloc(font_list, (font_cnt + available) * sizeof(FontList));
+    if (font_list == NULL)
+        Fatal_Error("Out of memory!");
     for (i=0; i<available; i++) {
         font_list[font_cnt].name = fonts[i];
         if (long_list == L_MEDIUM)

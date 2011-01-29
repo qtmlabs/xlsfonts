@@ -60,21 +60,6 @@ Display *dpy = NULL;
 int      screen = 0;
 
 /*
- * Realloc: like realloc but handles out of memory using Fatal_Error.
- */
-char *
-Realloc(char *ptr, int size)
-{
-	char *new_ptr;
-
-	if (!(new_ptr = realloc(ptr, size)))
-	  Fatal_Error("Out of memory!");
-
-	return(new_ptr);
-}
-
-
-/*
  * Get_Display_Name (argc, argv) Look for -display, -d, or host:dpy (obselete)
  * If found, remove it from command line.  Don't go past a lone -.
  */
