@@ -58,7 +58,6 @@ extern int screen;                           /* The current screen */
 
 /* Declarations for functions in dsimple.c */
 
-char *Malloc(unsigned);
 char *Realloc(char *, int);
 void Setup_Display_And_Screen(int *, char **);
 void Close_Display(void);

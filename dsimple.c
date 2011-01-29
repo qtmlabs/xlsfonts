@@ -60,30 +60,12 @@ Display *dpy = NULL;
 int      screen = 0;
 
 /*
- * Malloc: like malloc but handles out of memory using Fatal_Error.
- */
-char *
-Malloc(unsigned size)
-{
-	char *data;
-
-	if (!(data = malloc(size)))
-	  Fatal_Error("Out of memory!");
-
-	return(data);
-}
-	
-
-/*
- * Realloc: like Malloc except for realloc, handles NULL using Malloc.
+ * Realloc: like realloc but handles out of memory using Fatal_Error.
  */
 char *
 Realloc(char *ptr, int size)
 {
 	char *new_ptr;
-
-	if (!ptr)
-	  return(Malloc(size));
 
 	if (!(new_ptr = realloc(ptr, size)))
 	  Fatal_Error("Out of memory!");
