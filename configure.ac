@@ -34,11 +34,8 @@ XORG_DEFAULT_OPTIONS
 
 AC_CONFIG_HEADERS([config.h])
 
-
-
 # Checks for pkg-config packages
-PKG_CHECK_MODULES(XLSFONTS, x11)
-
+PKG_CHECK_MODULES(XLSFONTS, [x11 xproto >= 7.0.17])
 
 AC_CONFIG_FILES([
 	Makefile
