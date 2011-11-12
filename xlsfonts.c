@@ -63,7 +63,7 @@ typedef struct {
 static FontList *font_list = NULL;
 
 /* Local prototypes */
-static void get_list(char *pattern);
+static void get_list(const char *pattern);
 static int  compare(const void *arg1, const void *arg2);
 static void show_fonts(void);
 static void copy_number(char **pp1, char**pp2, int n1, int n2);
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
 
 
 static
-void get_list(char *pattern)
+void get_list(const char *pattern)
 {
     int           available = nnames+1,
                   i;
@@ -253,7 +253,7 @@ void show_fonts(void)
 
     if (long_list == L_MEDIUM) {
         XFontStruct *pfi;
-        char        *string;
+        const char  *string;
 
         printf("DIR  ");
         printf("MIN  ");
@@ -415,7 +415,7 @@ int IgnoreError(Display *disp, XErrorEvent *event)
     return 0;
 }
 
-static char *bounds_metrics_title =
+static const char *bounds_metrics_title =
                       "width left  right  asc  desc   attr   keysym\n";
 
 #define PrintBounds(_what,_ptr) \
@@ -425,7 +425,7 @@ static char *bounds_metrics_title =
           p->rbearing, p->ascent, p->descent, p->attributes); }
 
 
-static char* stringValued [] = { /* values are atoms */
+static const char* stringValued [] = { /* values are atoms */
     /* font name components (see section 3.2 of the XLFD) */
     "FOUNDRY",
     "FAMILY_NAME",
@@ -510,7 +510,7 @@ ComputeFontType(XFontStruct *fs)
 {
     int i;
     Bool char_cell = True;
-    char *reason = NULL;
+    const char *reason = NULL;
     XCharStruct *cs;
     Atom awatom = XInternAtom (dpy, "AVERAGE_WIDTH", False);
 

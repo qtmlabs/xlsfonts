@@ -51,7 +51,7 @@ from The Open Group.
 
     /* Global variables used by routines in just_display.c */
 
-extern char *program_name;                   /* Name of this program */
+extern const char *program_name;             /* Name of this program */
 extern Display *dpy;                         /* The current display */
 extern int screen;                           /* The current screen */
 
@@ -67,4 +67,4 @@ void usage(void);
 #define X_USAGE "[host:display]"              /* X arguments handled by
 						 Get_Display_Name */
 
-void Fatal_Error(char *, ...) _X_NORETURN;
+void Fatal_Error(const char *, ...) _X_NORETURN;
