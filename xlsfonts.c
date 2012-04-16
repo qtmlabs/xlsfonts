@@ -75,19 +75,19 @@ static void do_query_font (Display *dpy, char *name);
 
 void usage(void)
 {
-    fprintf (stderr, "usage:  %s [-options] [-fn pattern]\n", program_name);
-    fprintf (stderr, "where options include:\n");
-    fprintf (stderr, "    -l[l[l]]                 give long info about each font\n");
-    fprintf (stderr, "    -m                       give character min and max bounds\n");
-    fprintf (stderr, "    -C                       force columns\n");
-    fprintf (stderr, "    -1                       force single column\n");
-    fprintf (stderr, "    -u                       keep output unsorted\n");
-    fprintf (stderr, "    -o                       use OpenFont/QueryFont instead of ListFonts\n");
-    fprintf (stderr, "    -w width                 maximum width for multiple columns\n");
-    fprintf (stderr, "    -n columns               number of columns if multi column\n");
-    fprintf (stderr, "    -display displayname     X server to contact\n");
-    fprintf (stderr, "    -d displayname           (alias for -display displayname)\n");
-    fprintf (stderr, "\n");
+    fprintf (stderr, "usage:  %s [-options] [-fn pattern]\n%s", program_name,
+    "where options include:\n"
+    "    -l[l[l]]                 give long info about each font\n"
+    "    -m                       give character min and max bounds\n"
+    "    -C                       force columns\n"
+    "    -1                       force single column\n"
+    "    -u                       keep output unsorted\n"
+    "    -o                       use OpenFont/QueryFont instead of ListFonts\n"
+    "    -w width                 maximum width for multiple columns\n"
+    "    -n columns               number of columns if multi column\n"
+    "    -display displayname     X server to contact\n"
+    "    -d displayname           (alias for -display displayname)\n"
+    "\n");
     Close_Display();
     exit(EXIT_FAILURE);
 }
