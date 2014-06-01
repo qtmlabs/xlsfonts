@@ -73,8 +73,11 @@ static void ComputeFontType(XFontStruct *fs);
 static void print_character_metrics(register XFontStruct *info);
 static void do_query_font (Display *dpy, char *name);
 
-void usage(void)
+void usage(const char *errmsg)
 {
+    if (errmsg != NULL)
+        fprintf (stderr, "%s: %s\n\n", program_name, errmsg);
+
     fprintf (stderr, "usage:  %s [-options] [-fn pattern]\n%s", program_name,
     "where options include:\n"
     "    -l[l[l]]                 give long info about each font\n"
@@ -103,7 +106,8 @@ int main(int argc, char **argv)
 
     for (argv++, argc--; argc; argv++, argc--) {
         if (argv[0][0] == '-') {
-            if (argcnt > 0) usage ();
+            if (argcnt > 0)
+                usage ("options may not be specified after font names");
             for (i=1; argv[0][i]; i++)
                 switch(argv[0][i]) {
                 case 'l':
@@ -119,19 +123,23 @@ int main(int argc, char **argv)
                     columns = 1;
                     break;
                 case 'f': /* "-fn" */
-                    if (--argc <= 0) usage ();
-                    if (argv[0][i+1] != 'n') usage ();
+                    if (argv[0][i+1] != 'n') {
+                        fprintf (stderr, "%s: unrecognized argument %s\n\n",
+                                 program_name, argv[0]);
+                        usage(NULL);
+                    }
+                    if (--argc <= 0) usage ("-fn requires an argument");
                     argcnt++;
                     argv++;
                     get_list(argv[0]);
                     goto next;
                 case 'w':
-                    if (--argc <= 0) usage ();
+                    if (--argc <= 0) usage ("-w requires an argument");
                     argv++;
                     max_output_line_width = atoi(argv[0]);
                     goto next;
                 case 'n':
-                    if (--argc <= 0) usage ();
+                    if (--argc <= 0) usage ("-n requires an argument");
                     argv++;
                     columns = atoi(argv[0]);
                     goto next;
@@ -142,11 +150,16 @@ int main(int argc, char **argv)
                     sort_output = False;
                     break;
                 default:
-                    usage();
+                    fprintf (stderr, "%s: unrecognized argument -%c\n\n",
+                             program_name, argv[0][i]);
+                    usage(NULL);
                     break;
                 }
-            if (i == 1)
-                usage();
+            if (i == 1) {
+                fprintf (stderr, "%s: unrecognized argument %s\n\n",
+                         program_name, argv[0]);
+                usage(NULL);
+            }
         } else {
             argcnt++;
             get_list(argv[0]);

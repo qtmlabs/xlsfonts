@@ -62,7 +62,7 @@ extern int screen;                           /* The current screen */
 
 void Setup_Display_And_Screen(int *, char **);
 void Close_Display(void);
-void usage(void) _X_NORETURN;
+void usage(const char *errmsg) _X_NORETURN;
 
 #define X_USAGE "[host:display]"              /* X arguments handled by
 						 Get_Display_Name */

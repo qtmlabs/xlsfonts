@@ -75,7 +75,7 @@ Get_Display_Name(int *pargc/* MODIFIED */, char **argv/* MODIFIED */)
 	char *arg = argv[i];
 
 	if (!strcmp (arg, "-display") || !strcmp (arg, "-d")) {
-	    if (++i >= argc) usage ();
+	    if (++i >= argc) usage ("-display requires an argument");
 
 	    displayname = argv[i];
 	    *pargc -= 2;
