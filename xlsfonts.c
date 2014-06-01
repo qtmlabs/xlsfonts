@@ -26,6 +26,10 @@ in this Software without prior written authorization from The Open Group.
  * */
 /* $XFree86: xc/programs/xlsfonts/xlsfonts.c,v 1.9 2003/09/08 14:25:33 eich Exp $ */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
@@ -90,6 +94,7 @@ void usage(const char *errmsg)
     "    -n columns               number of columns if multi column\n"
     "    -display displayname     X server to contact\n"
     "    -d displayname           (alias for -display displayname)\n"
+    "    -v                       print program version\n"
     "\n");
     Close_Display();
     exit(EXIT_FAILURE);
@@ -149,6 +154,9 @@ int main(int argc, char **argv)
                 case 'u':
                     sort_output = False;
                     break;
+                case 'v':
+                    puts(PACKAGE_STRING);
+                    exit(0);
                 default:
                     fprintf (stderr, "%s: unrecognized argument -%c\n\n",
                              program_name, argv[0][i]);
