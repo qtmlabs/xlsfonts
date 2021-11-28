@@ -625,10 +625,10 @@ print_character_metrics(register XFontStruct *info)
 }
 
 static void
-do_query_font(Display *dpy, char *name)
+do_query_font(Display *display, char *name)
 {
     register int i;
-    register XFontStruct *info = XLoadQueryFont(dpy, name);
+    register XFontStruct *info = XLoadQueryFont(display, name);
 
     if (!info) {
         fprintf(stderr, "%s:  unable to get info about font \"%s\"\n",
