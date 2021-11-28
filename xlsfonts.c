@@ -497,9 +497,8 @@ PrintProperty(XFontProp * prop)
 
     atom = XGetAtomName(dpy, prop->name);
     if (!atom) {
+        snprintf(nosuch, sizeof(nosuch), "No such atom = %ld", prop->name);
         atom = nosuch;
-        nosuch[0] = '\0';
-        (void) sprintf(atom, "No such atom = %ld", prop->name);
     }
     printf("      %s", atom);
 
