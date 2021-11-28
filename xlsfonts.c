@@ -532,7 +532,6 @@ PrintProperty(XFontProp * prop)
 static void
 ComputeFontType(XFontStruct *fs)
 {
-    int i;
     Bool char_cell = True;
     const char *reason = NULL;
     XCharStruct *cs;
@@ -545,7 +544,7 @@ ComputeFontType(XFontStruct *fs)
     }
 
     if (awatom) {
-        for (i = 0; i < fs->n_properties; i++) {
+        for (int i = 0; i < fs->n_properties; i++) {
             if (fs->properties[i].name == awatom &&
                 (fs->max_bounds.width * 10) != fs->properties[i].card32) {
                 char_cell = False;
@@ -556,6 +555,7 @@ ComputeFontType(XFontStruct *fs)
     }
 
     if (fs->per_char) {
+        unsigned int i;
         for (i = fs->min_char_or_byte2, cs = fs->per_char;
              i <= fs->max_char_or_byte2; i++, cs++) {
             if (cs->width == 0)
@@ -603,7 +603,7 @@ static void
 print_character_metrics(register XFontStruct *info)
 {
     register XCharStruct *pc = info->per_char;
-    register int i, j;
+    unsigned int i, j;
     unsigned n, saven;
 
     printf("  character metrics:\n");
