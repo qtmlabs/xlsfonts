@@ -474,6 +474,9 @@ static const char *stringValued[] = {   /* values are atoms */
 
     /* other registered font properties (see the X.org Registry, sec. 15) */
     "_ADOBE_POSTSCRIPT_FONTNAME",
+    "_QTMLABS_AXIS_NAMES",
+    "_QTMLABS_AXIS_TYPES",
+    "_QTMLABS_AXIS_LIMITS",
 
     /* unregistered font properties */
     "CHARSET_COLLECTIONS",
